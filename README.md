@@ -1,118 +1,69 @@
+# 🌍 Tourism Management System
 
+A web-based Tourism Management System developed using **PHP and MySQL** that allows users to explore and manage tourism packages, make bookings, and manage their travel information. The system also provides an administrative panel for managing users, packages, bookings, and other tourism-related data.
 
-\# 📈 Stock Market Predictor
+## 🚀 Features
 
+### 👤 User Features
 
+- User registration and login
+- Browse available tourism packages
+- View package details
+- Search and explore tour packages
+- Book tourism packages
+- View booking information
+- Manage user profile
+- Contact/Enquiry functionality
+- User-friendly interface
 
-A full-stack stock price prediction application that uses historical market data and Machine Learning to predict future stock prices.
+### 🔐 Admin Features
 
+- Secure admin login
+- Admin dashboard
+- Manage tourism packages
+- Add, edit, and delete packages
+- Manage registered users
+- Manage bookings
+- View booking details
+- Manage enquiries
+- Update system information
+- Monitor tourism activities
 
+## 🛠️ Technologies Used
 
-\## 🚀 Features
+### Frontend
+- HTML5
+- CSS3
+- JavaScript
+- Bootstrap
 
+### Backend
+- PHP
 
+### Database
+- MySQL
 
-\- Enter a stock ticker such as AAPL
+### Development Environment
+- XAMPP / WAMP / LAMP
+- phpMyAdmin
+- Apache
 
-\- Select historical data start and end dates
-
-\- Choose the number of future prediction days
-
-\- Fetches historical stock data using yfinance
-
-\- Uses Linear Regression for prediction
-
-\- Calculates Mean Squared Error (MSE)
-
-\- Calculates R² Score
-
-\- Displays future predicted prices
-
-\- Responsive React frontend
-
-\- Flask REST API backend
-
-
-
-\## 🛠️ Technologies Used
-
-
-
-\### Frontend
-
-\- React.js
-
-\- JavaScript
-
-\- HTML5
-
-\- CSS3
-
-
-
-\### Backend
-
-\- Python
-
-\- Flask
-
-\- Flask-CORS
-
-
-
-\### Machine Learning
-
-\- Scikit-learn
-
-\- Linear Regression
-
-\- Pandas
-
-\- NumPy
-
-
-
-\### Data Source
-
-\- Yahoo Finance through yfinance
-
-
-
-\## 📂 Project Structure
-
-
+## 📂 Project Structure
 
 ```text
-
-Stock-Market-Predictor/
-
+Tourism-Management-System/
 │
-
-├── backend/
-
-│   ├── app.py
-
-│   └── requirements.txt
-
+├── tms/
+│   ├── admin/
+│   ├── css/
+│   ├── images/
+│   ├── js/
+│   ├── includes/
+│   ├── package-details.php
+│   ├── package-list.php
+│   ├── index.php
+│   └── ...
 │
-
-├── frontend/
-
-│   ├── public/
-
-│   ├── src/
-
-│   │   ├── App.js
-
-│   │   ├── App.css
-
-│   │   └── ...
-
-│   └── package.json
-
-│
-
-├── stock\_price\_prediction.py
-
-└── README.md
-
+├── tms.sql
+├── README.md
+└── ...
