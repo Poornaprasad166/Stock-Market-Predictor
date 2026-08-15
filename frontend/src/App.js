@@ -1,0 +1,210 @@
+import React, { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [ticker, setTicker] = useState("AAPL");
+  const [start, setStart] = useState("2020-01-01");
+  const [end, setEnd] = useState("2024-01-01");
+  const [days, setDays] = useState(30);
+
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const predictStock = async () => {
+    setLoading(true);
+    setError("");
+    setResult(null);
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ticker,
+          start,
+          end,
+          days: Number(days),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Prediction failed");
+      }
+
+      setResult(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="app">
+      <header className="hero">
+        <div className="hero-content">
+          <div className="logo">📈</div>
+          <div>
+            <h1>Stock Price Predictor</h1>
+            <p>
+              Predict future stock prices using Machine Learning
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <main className="container">
+        <section className="prediction-card">
+          <div className="section-title">
+            <h2>Stock Prediction</h2>
+            <p>Enter the stock details to generate a prediction.</p>
+          </div>
+
+          <div className="form-grid">
+            <div className="form-group">
+              <label>Stock Ticker</label>
+              <input
+                type="text"
+                value={ticker}
+                onChange={(e) =>
+                  setTicker(e.target.value.toUpperCase())
+                }
+                placeholder="AAPL"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Prediction Days</label>
+              <input
+                type="number"
+                min="1"
+                max="365"
+                value={days}
+                onChange={(e) => setDays(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Start Date</label>
+              <input
+                type="date"
+                value={start}
+                onChange={(e) => setStart(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>End Date</label>
+              <input
+                type="date"
+                value={end}
+                onChange={(e) => setEnd(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <button
+            className="predict-button"
+            onClick={predictStock}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Predicting...
+              </>
+            ) : (
+              <>🔮 Predict Stock Price</>
+            )}
+          </button>
+        </section>
+
+        {error && (
+          <div className="error-box">
+            <strong>Prediction Error</strong>
+            <span>{error}</span>
+          </div>
+        )}
+
+        {result && (
+          <section className="results-section">
+            <div className="result-header">
+              <div>
+                <span className="result-label">Prediction Result</span>
+                <h2>{result.ticker} Stock Analysis</h2>
+              </div>
+
+              <div className="ticker-badge">
+                {result.ticker}
+              </div>
+            </div>
+
+            <div className="metrics-grid">
+              <div className="metric-card">
+                <span className="metric-icon">📊</span>
+                <div>
+                  <p>Mean Squared Error</p>
+                  <h3>{result.mse.toFixed(4)}</h3>
+                </div>
+              </div>
+
+              <div className="metric-card">
+                <span className="metric-icon">🎯</span>
+                <div>
+                  <p>R² Score</p>
+                  <h3>{result.r2.toFixed(4)}</h3>
+                </div>
+              </div>
+
+              <div className="metric-card">
+                <span className="metric-icon">📅</span>
+                <div>
+                  <p>Prediction Period</p>
+                  <h3>{days} Days</h3>
+                </div>
+              </div>
+            </div>
+
+            <div className="predictions-card">
+              <div className="table-header">
+                <div>
+                  <h3>Future Price Predictions</h3>
+                  <p>Estimated prices generated by the model</p>
+                </div>
+              </div>
+
+              <div className="prediction-table">
+                <div className="table-row table-heading">
+                  <span>Date</span>
+                  <span>Predicted Price</span>
+                </div>
+
+                {result.future_dates.map((date, index) => (
+                  <div className="table-row" key={date}>
+                    <span>{date}</span>
+                    <strong>
+                      ${result.future_prices[index].toFixed(2)}
+                    </strong>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+      </main>
+
+      <footer>
+        <p>
+          Stock Price Predictor • Linear Regression • yfinance
+        </p>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
